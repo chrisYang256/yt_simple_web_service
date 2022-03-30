@@ -27,7 +27,7 @@ def index():
     return render_template("index.html")
 
 @app.route("/company/api/list", methods=["GET"])
-def compamy_list():
+def select_compamy_list():
     db.connect()
 
     offset = request.args.get('offset', default=1, type=int)
@@ -53,7 +53,7 @@ def compamy_list():
     return { "results": results, "status": 200 }
 
 @app.route("/company/api/get", methods=["GET"]) # query param 방식
-def get_compamy():
+def select_compamy():
     db.connect()
 
     company_name = request.args.get("company_name", default="", type=str)
@@ -79,7 +79,7 @@ def get_compamy():
     return { "message": "기업 이름이 입력되지 않았습니다.", "status": 200 }
 
 @app.route("/company/api/add", methods=["POST"])
-def add_compant():
+def create_company():
     db.connect()
 
     req = request.get_json()
@@ -134,7 +134,7 @@ def update_company(company_id: int):
     return { "message": "success", "Status": 201 }
 
 @app.route("/company/api/remove/<company_id>", methods=["DELETE"])
-def remove_company(company_id: int):
+def delete_company(company_id: int):
     db.connect()
 
     find_company = """

@@ -16,11 +16,11 @@ FLASK_APP = app.py
 FLASK_ENV = development
 
 # 문자열을 문자열("") 기호로 감싸지 않아도 됩니다.
-DB_USER      = 유저 id
-DB_PASSWORD  = 비밀번호
-DB_HOST      = 호스트명
-DB_NAME      = db 이름
-DB_PORT      = 포트번호
+DB_USER     = 유저 id
+DB_PASSWORD = 비밀번호
+DB_HOST     = 호스트명
+DB_NAME     = db 이름
+DB_PORT     = 포트번호
 
 WEB_HOST = localhost
 WEB_PORT = 5000
