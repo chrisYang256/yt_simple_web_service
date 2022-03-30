@@ -9,9 +9,10 @@
 
 ### > 환경설정
 
-- 개발보드 기준 root경로에 .env 파일을 만든 후 아래 양식을 채워주면 됩니다.
+- root경로에 .env 파일을 만든 후 아래 양식을 채워주면 됩니다.
 
 ```
+# config for dev
 FLASK_APP = app.py
 FLASK_ENV = development
 
