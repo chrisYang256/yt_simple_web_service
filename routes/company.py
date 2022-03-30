@@ -1,26 +1,15 @@
+from flask import request
+
 import os
 import pymysql
 import datetime
-from flask import request
 
 from . import company
-from dotenv import load_dotenv
+from db_module import db
 
-load_dotenv(
-    dotenv_path="../.env",
-    verbose=True
-)
-
-db = pymysql.connect(
-	user    = os.getenv("DB_USER"),
-    passwd  = os.getenv("DB_PASSWORD"),
-    host    = os.getenv("DB_HOST"),
-    db      = os.getenv("DB_NAME"),
-    port    = int(os.getenv("DB_PORT")),
-    charset = "utf8"
-)
 
 cursor = db.cursor(pymysql.cursors.DictCursor)
+
 
 @company.route("list", methods=["GET"])
 def select_compamy_list():
@@ -49,7 +38,6 @@ def select_compamy_list():
 
     finally:
         db.close()
-
 
 @company.route("get", methods=["GET"]) # query param 방식
 def select_compamy():
