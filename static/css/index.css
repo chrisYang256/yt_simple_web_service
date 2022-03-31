@@ -1,0 +1,22 @@
+/* section::: panel-table */
+#table_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0px 0px 0px;
+}
+
+table,
+td,
+th {
+  border: solid 2px gray;
+  border-collapse: collapse;
+  text-align: center;
+  width: 650px;
+  height: 30px;
+}
+
+/* section::: panel-button */
+#new-button-wrapper {
+  margin: 15px 0px 0px 25px;
+}
