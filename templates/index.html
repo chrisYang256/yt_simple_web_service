@@ -1,19 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>main page</title>
-</head>
-<body>
-    <style>
-        #main_title {
-            background-color: tomato;
-        }
-    </style>
-    <h1 id="main_title">Hola Falsk!!</h1>
-    <div>This page is your first flask rendering thing</div>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="..\static\css\common.css" />
+    <link rel="stylesheet" type="text/css" href="..\static\css\index.css" />
+    <title>Company List</title>
+  </head>
+  <body>
+    <section id="panel-wrapper">
+      <div id="outer-box-wrapper">
+        <div id="outer_box">
+          
+          <section id="panel-head">
+            <div id="boxtitle-and-time-wrapper">
+              <div id="box-title">
+                <p>회사 목록</p>
+              </div>
+              <div id="server-time-wrapper">
+                <p>서버 시간 :</p>
+                <div id="server-time">
+                  <p>yyyy-mm-dd hh:mm:ss</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div id="divide-line"></div>
+
+          <section id="panel-table">
+            <div id="table_wrapper">
+              <table>
+                <tr>
+                  <th>머리1</th>
+                  <th>머리2</th>
+                  <th>머리3</th>
+                  <th>머리4</th>
+                  <th>머리5</th>
+                </tr>
+                <tr>
+                  <td>데타1</td>
+                  <td>데타2</td>
+                  <td>데타3</td>
+                  <td>데타4</td>
+                  <td>데타5</td>
+                </tr>
+                <tr>
+                  <td>데타1</td>
+                  <td>데타2</td>
+                  <td>데타3</td>
+                  <td>데타4</td>
+                  <td>데타5</td>
+                </tr>
+                <tr>
+                  <td>데타1</td>
+                  <td>데타2</td>
+                  <td>데타3</td>
+                  <td>데타4</td>
+                  <td>데타5</td>
+                </tr>
+                <tr>
+                  <td>데타1</td>
+                  <td>데타2</td>
+                  <td>데타3</td>
+                  <td>데타4</td>
+                  <td>데타5</td>
+                </tr>
+                <tr>
+                  <td>데타1</td>
+                  <td>데타2</td>
+                  <td>데타3</td>
+                  <td>데타4</td>
+                  <td>데타5</td>
+                </tr>
+              </table>
+            </div>
+          </section>
+
+          <section id="panel-button">
+            <div id="new-button-wrapper">
+              <button
+                type="button"
+                class="navyBtn"
+                onClick="location.href='PAGENAME.html'"
+              >
+                신규 등록
+              </button>
+          </section>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

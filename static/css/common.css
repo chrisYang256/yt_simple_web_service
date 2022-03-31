@@ -1,0 +1,101 @@
+/* pure tags */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background-color: darkslategray;
+}
+
+p {
+  margin: 0;
+}
+
+/* section::: panel-wrapper */
+#outer-box-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: row;
+}
+
+#outer_box {
+  border: 3px solid black;
+  width: 700px;
+  height: 420px;
+  background-color: whitesmoke;
+}
+
+/* section::: panel-head */
+#boxtitle-and-time-wrapper {
+  margin: 30px 0px 0px 25px;
+}
+
+#box-title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#server-time-wrapper {
+  display: flex;
+  margin-top: 20px;
+}
+
+#server-time {
+  margin-left: 10px;
+}
+
+/* button */
+button {
+  background: #1aab8a;
+  color: #fff;
+  border: none;
+  position: relative;
+  height: 50px;
+  font-size: 1.2em;
+  width: 130px;
+  padding: 0 1em;
+  cursor: pointer;
+  transition: 800ms ease all;
+  outline: none;
+}
+button:hover {
+  background: #fff;
+  color: #1aab8a;
+}
+button:before,
+button:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #1aab8a;
+  transition: 400ms ease all;
+}
+button:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+button:hover:before,
+button:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}
+
+/* other accessory */
+#divide-line {
+  width: 680px;
+  height: 1px;
+  margin: 10px 0px 0px 10px;
+  right: 10px;
+  background-color: lightgray;
+}
