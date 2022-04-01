@@ -24,9 +24,7 @@
               </div>
               <div id="server-time-wrapper">
                 <p>서버 시간 :</p>
-                <div id="server-time" class="clock">
-                  <p>{{ time }}</p>
-                </div>
+                <div id="server-time" class="real-time"></div>
               </div>
             </div>
           </section>
@@ -93,6 +91,24 @@
         })
       }
       get_company_list()
+
+      function get_server_time() {
+        $.ajax({
+          type: 'GET',
+          url: 'api/server_time',
+          contentType: 'JSON',
+          error: function(xhr, potion, error) {
+            console.log('실패');
+            console.log(error);
+          },
+          success: function (data) {
+            console.log('성공');
+            console.log(data)
+            $(".real-time").html(`<p>${data}</p>`)
+          }
+        })
+      }
+      setInterval(get_server_time, 1000)
     </script>
   </body>
 </html>
