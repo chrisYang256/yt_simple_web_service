@@ -10,6 +10,9 @@ from db_module import db
 
 cursor = db.cursor(pymysql.cursors.DictCursor)
 
+@company_api.route("api/server_time", methods=["GET"]) 
+def get_servertime():
+    return '{}'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
 @company_api.route("api/list", methods=["GET"])
 def select_compamy_list():
@@ -44,7 +47,7 @@ def select_compamy(company_id):
     try:
         db.connect()
 
-        company_name = request.args.get("company_id", default="", type=int)
+        company_id = request.args.get("company_id", default="", type=int)
 
         if company_id:
             company = """
