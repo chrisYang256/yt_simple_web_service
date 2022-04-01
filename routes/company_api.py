@@ -4,20 +4,20 @@ import os
 import pymysql
 import datetime
 
-from . import company
+from . import company_api
 from db_module import db
 
 
 cursor = db.cursor(pymysql.cursors.DictCursor)
 
 
-@company.route("list", methods=["GET"])
+@company_api.route("api/list", methods=["GET"])
 def select_compamy_list():
     try: 
         db.connect()
 
         offset = request.args.get('offset', default=1, type=int)
-        limit  = request.args.get('limit', default=20, type=int)
+        limit  = request.args.get('limit', default=5, type=int)
         skip   = int(limit * (offset - 1))
 
         compaies = """
@@ -39,20 +39,20 @@ def select_compamy_list():
     finally:
         db.close()
 
-@company.route("get", methods=["GET"]) # query param 방식
-def select_compamy():
+@company_api.route("api/get/<company_id>", methods=["GET"]) # query param 방식
+def select_compamy(company_id):
     try:
         db.connect()
 
-        company_name = request.args.get("company_name", default="", type=str)
+        company_name = request.args.get("company_id", default="", type=int)
 
-        if company_name:
+        if company_id:
             company = """
                 select * 
                 from company 
-                where company_name=%s
+                where id=%s
             """
-            cursor.execute(company, (company_name))
+            cursor.execute(company, (company_id))
 
             result = cursor.fetchone()
 
@@ -66,7 +66,7 @@ def select_compamy():
     finally:
         db.close()
 
-@company.route("add", methods=["POST"])
+@company_api.route("api/add", methods=["POST"])
 def create_company():
     try:
         db.connect()
@@ -87,7 +87,7 @@ def create_company():
     finally:
         db.close()
 
-@company.route("update/<company_id>", methods=["PUT"]) # path param 방식
+@company_api.route("api/update/<company_id>", methods=["PUT"]) # path param 방식
 def update_company(company_id: int):
     try:
         db.connect()
@@ -125,7 +125,7 @@ def update_company(company_id: int):
     finally:
         db.close()
 
-@company.route("remove/<company_id>", methods=["DELETE"])
+@company_api.route("api/remove/<company_id>", methods=["DELETE"])
 def delete_company(company_id: int):
     try:
         db.connect()
