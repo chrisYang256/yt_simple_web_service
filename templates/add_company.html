@@ -20,7 +20,7 @@
               </div>
               <div id="server-time-wrapper">
                 <p>서버 시간 :</p>
-                <div id="server-time">
+                <div id="server-time", class="clock">
                   <p>yyyy-mm-dd hh:mm:ss</p>
                 </div>
               </div>
@@ -58,7 +58,7 @@
               <div id="bottom-buttons-wrapper">
                 <button
                 type="button"
-                onClick="location.href='PAGENAME.html'"
+                onClick="location.href='list_view'"
                 >
                 목 록
                 </button>
@@ -70,5 +70,59 @@
         </div>
       </div>
     </section>
+
+    <script>
+      function add_company_list() {
+        $.ajax({
+          type: 'POST',
+          url: 'api/add',
+          contentType: 'JSON',
+          error: function(xhr, potion, error) {
+            console.log('실패');
+            console.log(error);
+          },
+          success: function (data) {
+            console.log('성공');
+            console.log(data)
+
+          }
+        })
+      }
+
+
+      const clock_container = document.querySelector('.clock'),
+            clock_title = clock_container.querySelector('p');
+
+      function get_time () {
+        const date    = new Date();
+        const year    = date.getFullYear();
+        const month   = date.getMonth();
+        const day     = date.getDay();
+        const minutes = date.getMinutes();
+        const hours   = date.getHours();
+        const seconds = date.getSeconds();
+
+        clock_title.innerText =
+          `${ 
+            year 
+          }-${ 
+            month < 10 ? `0${month}` : month 
+          }-${ 
+            day < 10 ? `0${day}` : day 
+          } ${ 
+            hours < 10 ? `0${hours}` : hours 
+          }:${ 
+             minutes < 10 ? `0${minutes}` : minutes 
+          }:${ 
+            seconds < 10 ? `0${seconds}` : seconds 
+          }`;
+      } 
+
+      function time () { 
+        get_time();
+        setInterval(time, 1000);
+      }
+      time();
+    </script>
   </body>
 </html>

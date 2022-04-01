@@ -1,4 +1,6 @@
 from flask import Blueprint
-company = Blueprint('company', __name__, url_prefix="/company/api/")
+company_api = Blueprint('company_api', __name__, url_prefix="/company/")
+company_view = Blueprint('company_view', __name__, url_prefix="/company/")
 
-from .company import *
+from .company_api import *
+from .company_view import *

@@ -12,8 +12,21 @@ th {
   border: solid 2px gray;
   border-collapse: collapse;
   text-align: center;
+  font-size: 15px;
+}
+
+table {
+  table-layout: fixed;
   width: 650px;
-  height: 30px;
+  height: 200px;
+}
+
+td {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0px 10px;
+  width: 125px;
 }
 
 /* section::: panel-button */
