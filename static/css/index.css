@@ -9,10 +9,10 @@
 table,
 td,
 th {
-  border: solid 2px gray;
   border-collapse: collapse;
   text-align: center;
   font-size: 15px;
+  border: solid 2px gray;
 }
 
 table {
@@ -27,6 +27,12 @@ td {
   white-space: nowrap;
   padding: 0px 10px;
   width: 125px;
+}
+
+#company-detail-info {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
 }
 
 /* section::: panel-button */

@@ -8,9 +8,17 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
       crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" type="text/css" href="..\static\css\common.css">
-    <link rel="stylesheet" type="text/css" href="..\static\css\update_company.css">
-    <title>Company List</title>
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="{{ url_for("static", filename="css/common.css") }}" 
+    /> <!-- net::ERR_ABORTED 404 (NOT FOUND) 발생시 적용 -->
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="{{ url_for("static", filename="css/update_company.css") }}" 
+    />
+    <title>Update Company</title>
   </head>
   <body>
     <section id="panel-wrapper">
@@ -25,7 +33,7 @@
               <div id="server-time-wrapper">
                 <p>서버 시간 :</p>
                 <div id="server-time">
-                  <p>yyyy-mm-dd hh:mm:ss</p>
+                  <p></p>
                 </div>
               </div>
             </div>
@@ -34,45 +42,135 @@
           <div id="divide-line"></div>
 
           <section id="panel-input">
-            <form
-              action="/examples/media/action_target.php"
-              method="post"
-              id="company-info-set-wrapper"
-            >
-              <div class="company-info-wrapper" id="company-name-set-wrapper">
-                <p>회사명 :</p> 
-                <div>
-                  <input id="company-name-input" type="text" name="company_name" size=48 maxlength=50>
+            <div id="company-info-set-wrapper">
+              <form
+                id="form-data"
+                method="put"
+              >
+                <div id="company-name-set-wrapper" class="company-info-wrapper">
+                  <p>회사명 :</p> 
+                  <div>
+                    <input 
+                      id="company-name-input" 
+                      name="company_name" 
+                      type="text" 
+                      size=48 
+                      maxlength=50
+                    >
+                  </div>
                 </div>
-              </div>
-    
-              <div class="company-info-wrapper" id="company-desc-set-wrapper">
-                <p>설명 :</p>
-                <div>
-                  <textarea
-                    id="company-desc-input"
-                    rows="9"
-                    cols="62"
-                    type="text"
-                    maxlength=4000
-                    name="company_description"
-                  ></textarea>
+      
+                <div id="company-desc-set-wrapper" class="company-info-wrapper" >
+                  <p>설명 :</p>
+                  <div>
+                    <textarea
+                      id="company-desc-input"
+                      name="description"
+                      type="text"
+                      rows="9"
+                      cols="62"
+                      maxlength=4000
+                    ></textarea>
+                  </div>
                 </div>
+                <div id="bottom-buttons-wrapper">
+                  <button
+                  id="list-button"
+                  type="button"
+                  >
+                  목 록
+                  </button>
+                  <button 
+                    id="update-button" 
+                    type="button" 
+                    >
+                    적 용
+                  </button>
+                </div>
+              </form>
               </div>
-              <div id="bottom-buttons-wrapper">
-                <button
-                type="button"
-                onClick="location.href='PAGENAME.html'"
-                >
-                목 록
-                </button>
-                <button id="create-button">적 용</button>
-              </div>
-            </form>
             </div>
           </section>
         </div>
       </div>
     </section>
+
+    <script>
+      (function() {
+        $.ajax({
+          type: "GET",
+          url: `/company/api/get/${ "{{ company_id }}" }`,
+          contentType: "JSON",
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log("성공");
+            console.log(data)
+            $("document").ready(function() {
+              $("#company-name-input").val(data.result.company_name),
+              $("#company-desc-input").val(data.result.description)
+            })
+          }
+        })
+      }())
+
+      $("#list-button").click(function() {
+        $(location).attr("href", "/company/list_view")
+      })
+      
+      $("#update-button").click(function() {
+        const company_name = $("#company-name-input").val().trim();
+        const description = $("#company-desc-input").val().trim();
+        
+        if (company_name === "") {
+          alert("회사명을 입력해주세요.");
+          return;
+        }
+
+        if (description === "") {
+          alert("설명을 입력해주세요.");
+          return;
+        }
+
+        let form_data = $("#form-data").serialize();
+
+        $.ajax({
+          type: "PUT",
+          url: `/company/api/update/${ "{{ company_id }}" }`,
+          data: form_data,
+          dataType: "json",
+          timeout: 180000,
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log("성공");
+            console.log(data);
+            window.location.href = "/company/list_view";
+          },
+        });
+      });
+
+      setInterval(function() {
+        $.ajax({
+          type: "GET",
+          url: "/company/api/server_time",
+          contentType: "JSON",
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log(data);
+            $("document").ready(function() {
+              $("#server-time").html(`<p>${data}</p>`);
+            });
+          },
+        });
+      }, 1000);
+    </script>
   </body>
 </html>

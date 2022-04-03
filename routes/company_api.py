@@ -42,12 +42,10 @@ def select_compamy_list():
     finally:
         db.close()
 
-@company_api.route("api/get/<company_id>", methods=["GET"]) # query param 방식
-def select_compamy(company_id):
+@company_api.route("api/get/<company_id>", methods=["GET"])
+def select_compamy(company_id: int):
     try:
         db.connect()
-
-        company_id = request.args.get("company_id", default="", type=int)
 
         if company_id:
             company = """
@@ -56,7 +54,6 @@ def select_compamy(company_id):
                 where id=%s
             """
             cursor.execute(company, (company_id))
-
             result = cursor.fetchone()
 
             if result is None:
@@ -64,7 +61,7 @@ def select_compamy(company_id):
 
             return { "result": result, "status": 200 }
 
-        return { "message": "기업 이름이 입력되지 않았습니다.", "status": 200 }
+        return { "message": "기업 id가 입력되지 않았습니다.", "status": 200 }
 
     finally:
         db.close()
@@ -73,10 +70,9 @@ def select_compamy(company_id):
 def create_company():
     try:
         db.connect()
-
-        req = request.get_json()
-        company_name = req["company_name"]
-        description  = req["description"]
+        
+        company_name = request.form["company_name"]
+        description  = request.form["description"]
 
         company_info = """
             insert into company(company_name, description) 
@@ -94,10 +90,9 @@ def create_company():
 def update_company(company_id: int):
     try:
         db.connect()
-        req = request.get_json()
 
-        company_name = req["company_name"]
-        description  = req["description"]
+        company_name = request.form["company_name"]
+        description  = request.form["description"]
         now_date     = datetime.datetime.now()
 
         find_company = """
