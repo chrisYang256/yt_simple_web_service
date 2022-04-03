@@ -2,20 +2,24 @@
 #company-info-set-wrapper {
   margin: 30px 0px 0px 25px;
 }
+
 .company-info-wrapper {
   display: flex;
-  justify-content: space-between;
   position: relative;
 }
+
 #company-name-data {
-  margin-right: 530px;
+  margin-left: 30px;
 }
+
 #company-desc-data {
-  margin-right: 530px;
+  margin-left: 40px;
 }
+
 #company-desc-set-wrapper {
   margin-top: 10px;
 }
+
 #company-name-set-wrapper {
   margin-top: 10px;
 }
@@ -26,12 +30,15 @@
   display: flex;
   justify-content: space-between;
 }
+
 #list-button {
   margin-left: 25px;
 }
-#modify-button {
+
+#update-button {
   margin-left: 180px;
 }
+
 #delete-button {
   margin-right: 25px;
 }

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+      crossorigin="anonymous">
+    </script>
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="{{ url_for("static", filename="css/common.css") }}" 
+    /> <!-- net::ERR_ABORTED 404 (NOT FOUND) 발생시 적용 -->
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="{{ url_for("static", filename="css/company_detail.css") }}" 
+    />
+    <title>Company Detail</title>
+  </head>
+  <body>
+    <section id="panel-wrapper">
+      <div id="outer-box-wrapper">
+        <div id="outer_box">
+
+          <section id="panel-head">
+            <div id="boxtitle-and-time-wrapper">
+              <div id="box-title">
+                <p>회사 상세 보기</p>
+              </div>
+              <div id="server-time-wrapper">
+                <p>서버 시간 :</p>
+                <div id="server-time">
+                  <p></p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div id="divide-line"></div>
+
+          <section id="panel-info">
+            <div id="company-info-set-wrapper">
+              <div id="company-name-set-wrapper" class="company-info-wrapper">
+                <p>회사명 :</p>
+                <div id="company-name-data">
+                  <p>Please sec..</p>
+                </div>
+              </div>
+
+              <div id="company-desc-set-wrapper" class="company-info-wrapper">
+                <p>설 명 :</p>
+                <div id="company-desc-data">
+                  <p>Please sec..</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="pannel-buttons">
+            <div id="button-wrapper">
+              <button
+                id="list-button"
+                type="button"
+              >
+                목 록
+              </button>
+              <button
+                id="update-button"
+                type="button"
+              >
+                수 정
+              </button>
+              <button
+                id="delete-button"
+                type="button"
+              >
+                삭 제
+              </button>
+            </div>
+          </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      (function() {
+        $.ajax({
+          type: "GET",
+          url: `/company/api/get/${ "{{ company_id }}" }`,
+          contentType: "JSON",
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log("성공");
+            console.log(data)
+            $("document").ready(function() {
+              $("#company-name-data").html(`<p>${data.result.company_name}</p>`)
+              $("#company-desc-data").html(`<p>${data.result.description}</p>`)
+            })
+          }
+        })
+      }())
+
+      $("#list-button").click(function() {
+        $(location).attr("href", "/company/list_view")
+      })
+
+      $("#update-button").click(function() {
+        $(location).attr("href", `/company/update_view/${ "{{ company_id }}" }`)
+      })
+
+      $("#delete-button").click(function() {
+        $.ajax({
+          type: "DELETE",
+          url: `/company/api/remove/${ "{{ company_id }}" }`,
+          contentType: "JSON",
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log("성공");
+            console.log(data)
+            alert('삭제 성공!')
+            window.location.href = "/company/list_view";
+          }
+        })
+      })
+
+      setInterval(function() {
+        $.ajax({
+          type: "GET",
+          url: "/company/api/server_time",
+          // contentType: "JSON",
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log(data);
+            $(document).ready(function() {
+              $("#server-time").html(`<p>${data}</p>`);
+            });
+          },
+        });
+      }, 1000);
+    </script>
+  </body>
+</html>

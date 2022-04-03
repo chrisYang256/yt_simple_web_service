@@ -50,8 +50,9 @@ p {
   margin-left: 10px;
 }
 
-/* button */
-button {
+/* button, input */
+button,
+#button {
   background: #1aab8a;
   color: #fff;
   border: none;
