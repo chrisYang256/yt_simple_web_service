@@ -1,36 +1,36 @@
 /* section - panel-input */
-#company-info-set-wrapper {
+#user-info-set-wrapper {
   margin: 30px 0px 0px 25px;
 }
 
-.company-info-wrapper {
+.user-info-wrapper {
   display: flex;
   justify-content: space-between;
   position: relative;
 }
 
-#company-name-input {
-  margin-right: 270px;
+#company-name-select {
+  margin-right: 262px;
+  width: 308px;
+  height: 30px;
+}
+
+#user-name-input,
+#user-login-id-input {
+  margin-right: 262px;
   width: 300px;
   height: 25px;
 }
 
-#company-desc-input {
-  margin-right: 120px;
-}
-
-#company-desc-set-wrapper {
-  margin-top: 10px;
-}
-
-#company-name-set-wrapper {
-  margin-top: 10px;
+#user-name-set-wrapper,
+#user-login-id-set-wrapper {
+  margin-top: 20px;
 }
 
 #bottom-buttons-wrapper {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 70px;
   right: 200px;
 }
 #create-button {

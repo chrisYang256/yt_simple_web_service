@@ -1,5 +1,6 @@
 from flask import request
 
+import sys
 import datetime
 
 from db_module import db
@@ -12,9 +13,14 @@ def select_compamy_list():
     try: 
         db.connect()
 
-        offset = request.args.get('offset', default=1, type=int)
-        limit  = request.args.get('limit', default=5, type=int)
+        offset = request.args.get("offset", default=1, type=int)
+        limit  = (
+            request.args.get("limit", type=int) 
+            if request.args.get("limit") 
+            else sys.maxsize
+        ) # default=5,
         skip   = int(limit * (offset - 1))
+        print(offset, limit, skip)
 
         compaies = company_query.select_company_list(limit, skip)
 

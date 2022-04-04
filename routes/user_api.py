@@ -44,21 +44,22 @@ def select_user_detail(user_id: int):
     finally:
         db.close()
 
-# @user_api.route("api/add", methods=["POST"])
-# def create_company():
-#     try:
-#         db.connect()
+@user_api.route("api/add", methods=["POST"])
+def create_user():
+    try:
+        db.connect()
         
-#         company_name = request.form["company_name"]
-#         description  = request.form["description"]
+        company_id = request.form["company_id"]
+        user_name = request.form["user_name"]
+        login_id  = request.form["login_id"]
 
-#         company_query.create_company(company_name, description)
+        user_query.create_user(company_id, user_name, login_id)
 
-#         db.commit()
-#         return { "message": "success", "Status": 201 }
+        db.commit()
+        return { "message": "success", "Status": 201 }
     
-#     finally:
-#         db.close()
+    finally:
+        db.close()
 
 # @user_api.route("api/update/<company_id>", methods=["PUT"]) # path param 방식
 # def update_company(company_id: int):

@@ -77,7 +77,7 @@
               let tmp = "";
               $.each(data.results, function(idx, item) {
                 console.log('item',item)
-                tmp += `<tr><td id="company-detail-info"
+                tmp += `<tr><td id="user-detail-info"
                   onClick="location.href='detail_view/${item["id"]}'"
                 >${item["login_id"]}</td>`;
                 tmp += `<td>${item.user_name}</td>`;
@@ -96,7 +96,7 @@
       });
 
       $("#regist-button").click(function() {
-        $(location).attr("href", "/company/add_view")
+        $(location).attr("href", "/user/add_view")
       });
 
       setInterval(function() {
@@ -110,9 +110,7 @@
           },
           success: function(data) {
             console.log(data);
-            $("document").ready(function() {
-              $("#server-time").html(`<p>${data}</p>`);
-            });
+            $("#server-time").html(`<p>${data}</p>`);
           },
         });
       }, 1000);

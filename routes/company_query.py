@@ -29,11 +29,11 @@ def select_company_list(limit, skip):
     return compaies
     
 def create_company(company_name, description):
-    company_info = """
+    company_data = """
         insert into company(company_name, description) 
         values(%s, %s)
     """
-    cursor.execute(company_info, (company_name, description))
+    cursor.execute(company_data, (company_name, description))
 
 def update_company(company_name, description, now_date, company_id):
     company_info = """

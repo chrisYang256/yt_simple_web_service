@@ -6,14 +6,14 @@ from .     import user_view
 def get_user_list():
     return render_template("select_user_list.html")
 
-@user_view.route("detail_view/<company_id>")
-def get_company_detail(company_id):
-    return render_template("select_company_detail.html", company_id=company_id)
+@user_view.route("detail_view/<user_id>")
+def get_user_detail(user_id):
+    return render_template("select_user_detail.html", user_id=user_id)
 
 @user_view.route("add_view")
-def add_company():
-    return render_template("add_company.html")
+def add_user():
+    return render_template("add_user.html")
 
-@user_view.route("update_view/<company_id>")
-def update_company(company_id):
-    return render_template("update_company.html", company_id=company_id)
+@user_view.route("update_view/<user_id>")
+def update_user(user_id):
+    return render_template("update_user.html", user_id=user_id)
