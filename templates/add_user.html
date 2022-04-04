@@ -10,12 +10,8 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" type="text/css" href="..\static\css\common.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="..\static\css\add_company.css"
-    />
-    <title>Add Company</title>
+    <link rel="stylesheet" type="text/css" href="..\static\css\add_user.css" />
+    <title>Add User</title>
   </head>
   <body>
     <section id="panel-wrapper">
@@ -38,7 +34,7 @@
           <div id="divide-line"></div>
 
           <section id="panel-input">
-            <div id="company-info-set-wrapper">
+            <div id="user-info-set-wrapper">
               <form id="form-data" method="post">
                 <div id="company-name-set-wrapper" class="company-info-wrapper">
                   <p>회사명 :</p>
@@ -53,17 +49,34 @@
                   </div>
                 </div>
 
-                <div id="company-desc-set-wrapper" class="company-info-wrapper">
-                  <p>설명 :</p>
+                <div id="user-name-set-wrapper" class="user-info-wrapper">
+                  <p>이 름 :</p>
                   <div>
                     <textarea
-                      id="company-desc-input"
-                      name="description"
+                      id="user-name-input"
+                      name="user-name"
                       type="text"
                       rows="9"
                       cols="62"
                       type="text"
-                      maxlength="4000"
+                      maxlength="30"
+                      placeholder="이름 입력"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div id="user-loginid-set-wrapper" class="user-info-wrapper">
+                  <p>아이디 :</p>
+                  <div>
+                    <textarea
+                      id="user-login-id-input"
+                      name="user-login-id"
+                      type="text"
+                      rows="9"
+                      cols="62"
+                      type="text"
+                      maxlength="30"
+                      placeholder="아이디 입력"
                     ></textarea>
                   </div>
                 </div>
@@ -80,20 +93,26 @@
 
     <script>
       $("#list-button").click(function () {
-        $(location).attr("href", "/company/list_view");
+        $(location).attr("href", "/user/list_view");
       });
 
       $("#create-button").click(function () {
         const company_name = $("#company-name-input").val().trim();
-        const description = $("#company-desc-input").val().trim();
+        const user_name = $("#user-name-input").val().trim();
+        const login_id = $("#user-name-input").val().trim();
 
         if (company_name === "") {
-          alert("회사명을 입력해주세요.");
+          alert("회사명을 선택해주세요.");
           return;
         }
 
-        if (description === "") {
-          alert("설명을 입력해주세요.");
+        if (user_name === "") {
+          alert("이름을 입력해주세요.");
+          return;
+        }
+
+        if (login_id === "") {
+          alert("아이디를 입력해주세요.");
           return;
         }
 

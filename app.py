@@ -8,8 +8,11 @@ import os
 
 app = Flask(__name__)
 CORS(app)
+app.register_blueprint(common_api)
 app.register_blueprint(company_api)
 app.register_blueprint(company_view)
+app.register_blueprint(user_api)
+app.register_blueprint(user_view)
 
 load_dotenv(
     dotenv_path=".env",

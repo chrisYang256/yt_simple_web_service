@@ -1,16 +1,11 @@
 from flask import request
 
-import os
 import datetime
 
-from .         import company_api
 from db_module import db
-from routes    import sql_query
+from .         import company_api
+from routes    import company_query
 
-
-@company_api.route("api/server_time", methods=["GET"]) 
-def get_servertime():
-    return '{}'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
 @company_api.route("api/list", methods=["GET"])
 def select_compamy_list():
@@ -21,7 +16,7 @@ def select_compamy_list():
         limit  = request.args.get('limit', default=5, type=int)
         skip   = int(limit * (offset - 1))
 
-        compaies = sql_query.select_company_list(limit, skip)
+        compaies = company_query.select_company_list(limit, skip)
 
         if compaies is None:
             return { "message": "아직 입력된 기업이 존재하지 않습니다.", "status": 200 }
@@ -32,12 +27,12 @@ def select_compamy_list():
         db.close()
 
 @company_api.route("api/get/<company_id>", methods=["GET"])
-def select_compamy(company_id: int):
+def select_compamy_detail(company_id: int):
     try:
         db.connect()
 
         if company_id:
-            company = sql_query.select_company_to_check_exist(company_id)
+            company = company_query.select_company_to_check_exist(company_id)
 
             if company is None:
                 return { "message": "존재하지 않는 기업입니다.", "status": 200 }
@@ -57,7 +52,7 @@ def create_company():
         company_name = request.form["company_name"]
         description  = request.form["description"]
 
-        sql_query.create_company(company_name, description)
+        company_query.create_company(company_name, description)
 
         db.commit()
         return { "message": "success", "Status": 201 }
@@ -74,12 +69,12 @@ def update_company(company_id: int):
         description  = request.form["description"]
         now_date     = datetime.datetime.now()
 
-        find_company = sql_query.select_company_to_check_exist(company_id)
+        find_company = company_query.select_company_to_check_exist(company_id)
 
         if find_company is None:
             return { "message:": "존재하지 않는 기업입니다.", "status": 200 }
 
-        sql_query.update_company(company_name, description, now_date, company_id)
+        company_query.update_company(company_name, description, now_date, company_id)
 
         db.commit()
         return { "message": "success", "Status": 201 }
@@ -92,12 +87,12 @@ def delete_company(company_id: int):
     try:
         db.connect()
 
-        company = sql_query.select_company_to_check_exist(company_id)
+        company = company_query.select_company_to_check_exist(company_id)
 
         if company is None:
             return { "message:": "존재하지 않는 기업입니다.", "status": 200 }
 
-        sql_query.delete_company(company_id)
+        company_query.delete_company(company_id)
 
         db.commit()
         return { "message": "success", "Status": 201 }
