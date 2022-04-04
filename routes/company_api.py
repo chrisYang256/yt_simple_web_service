@@ -1,14 +1,12 @@
 from flask import request
 
 import os
-import pymysql
 import datetime
 
-from . import company_api
+from .         import company_api
 from db_module import db
+from routes    import sql_query
 
-
-cursor = db.cursor(pymysql.cursors.DictCursor)
 
 @company_api.route("api/server_time", methods=["GET"]) 
 def get_servertime():
@@ -23,21 +21,12 @@ def select_compamy_list():
         limit  = request.args.get('limit', default=5, type=int)
         skip   = int(limit * (offset - 1))
 
-        compaies = """
-            select * 
-            from company 
-            order by cdate DESC 
-            limit %s offset %s
-        """
+        compaies = sql_query.select_company_list(limit, skip)
 
-        cursor.execute(compaies, (limit, skip))
-
-        results = cursor.fetchall() # all/one 구분하기
-
-        if results is None:
+        if compaies is None:
             return { "message": "아직 입력된 기업이 존재하지 않습니다.", "status": 200 }
 
-        return { "results": results, "status": 200 }
+        return { "results": compaies, "status": 200 }
 
     finally:
         db.close()
@@ -48,18 +37,12 @@ def select_compamy(company_id: int):
         db.connect()
 
         if company_id:
-            company = """
-                select * 
-                from company 
-                where id=%s
-            """
-            cursor.execute(company, (company_id))
-            result = cursor.fetchone()
+            company = sql_query.select_company_to_check_exist(company_id)
 
-            if result is None:
+            if company is None:
                 return { "message": "존재하지 않는 기업입니다.", "status": 200 }
 
-            return { "result": result, "status": 200 }
+            return { "result": company, "status": 200 }
 
         return { "message": "기업 id가 입력되지 않았습니다.", "status": 200 }
 
@@ -74,11 +57,7 @@ def create_company():
         company_name = request.form["company_name"]
         description  = request.form["description"]
 
-        company_info = """
-            insert into company(company_name, description) 
-            values(%s, %s)
-        """
-        cursor.execute(company_info, (company_name, description))
+        sql_query.create_company(company_name, description)
 
         db.commit()
         return { "message": "success", "Status": 201 }
@@ -95,27 +74,12 @@ def update_company(company_id: int):
         description  = request.form["description"]
         now_date     = datetime.datetime.now()
 
-        find_company = """
-            select * 
-            from company
-            where id=%s
-        """
-        cursor.execute(find_company, (company_id))
-        find_company = cursor.fetchone()
+        find_company = sql_query.select_company_to_check_exist(company_id)
 
         if find_company is None:
             return { "message:": "존재하지 않는 기업입니다.", "status": 200 }
 
-        company_info = """
-            update company 
-            set company_name=%s, description=%s, udate=%s
-            where id=%s
-        """
-
-        cursor.execute(company_info, 
-            (company_name, description, now_date, company_id)
-        )
-        cursor.fetchall()
+        sql_query.update_company(company_name, description, now_date, company_id)
 
         db.commit()
         return { "message": "success", "Status": 201 }
@@ -128,24 +92,12 @@ def delete_company(company_id: int):
     try:
         db.connect()
 
-        find_company = """
-            select * 
-            from company
-            where id=%s
-        """
-        cursor.execute(find_company, (company_id))
-        find_company = cursor.fetchone()
+        company = sql_query.select_company_to_check_exist(company_id)
 
-        if find_company is None:
+        if company is None:
             return { "message:": "존재하지 않는 기업입니다.", "status": 200 }
 
-        company_info = """
-            delete from company 
-            where id=%s
-        """
-
-        cursor.execute(company_info, (company_id))
-        cursor.fetchall()
+        sql_query.delete_company(company_id)
 
         db.commit()
         return { "message": "success", "Status": 201 }

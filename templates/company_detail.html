@@ -87,25 +87,27 @@
     </section>
 
     <script>
-      (function() {
-        $.ajax({
-          type: "GET",
-          url: `/company/api/get/${ "{{ company_id }}" }`,
-          contentType: "JSON",
-          error: function(xhr, potion, error) {
-            console.log("실패");
-            console.log(error);
-          },
-          success: function(data) {
-            console.log("성공");
-            console.log(data)
-            $("document").ready(function() {
-              $("#company-name-data").html(`<p>${data.result.company_name}</p>`)
-              $("#company-desc-data").html(`<p>${data.result.description}</p>`)
-            })
-          }
-        })
-      }())
+      $(document).ready(function() {
+        (function() {
+          $.ajax({
+            type: "GET",
+            url: `/company/api/get/${ "{{ company_id }}" }`,
+            contentType: "JSON",
+            error: function(xhr, potion, error) {
+              console.log("실패");
+              console.log(error);
+            },
+            success: function(data) {
+              console.log("성공");
+              console.log(data)
+              $("document").ready(function() {
+                $("#company-name-data").html(`<p>${data.result.company_name}</p>`)
+                $("#company-desc-data").html(`<p>${data.result.description}</p>`)
+              })
+            }
+          })
+        }())
+      });
 
       $("#list-button").click(function() {
         $(location).attr("href", "/company/list_view")

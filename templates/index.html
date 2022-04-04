@@ -61,43 +61,45 @@
     </section>
 
     <script>
-      (function() {
-        $.ajax({
-          type: 'GET',
-          url: 'api/list',
-          contentType: 'JSON',
-          error: function(xhr, potion, error) {
-            console.log('실패');
-            console.log(error);
-          },
-          success: function(data) {
-            console.log('성공');
-            console.log(data)
-            let tmp = "";
-            $.each(data.results, function(idx, item) {
-              console.log('item',item)
-              tmp += `<tr><td>${item["id"]}</td>`;
-              tmp += `
-                <td id="company-detail-info"
-                  onClick="location.href='detail_view/${item["id"]}'"
-                >${item.company_name}
-                </td>`;
-              tmp += `<td>${item.description}</td>`;  
-              tmp += `<td>${item.cdate}</td>`;  
-              tmp += `<td>${item.udate}</td></tr>`;
-              if (idx < data.length) {
-                return false
-              }
-            })
-            console.log('tmp::', tmp)
-            $("table").append(tmp);
-          }
-        })
-      }())
+      $(document).ready(function() {
+        (function() {
+          $.ajax({
+            type: 'GET',
+            url: 'api/list',
+            contentType: 'JSON',
+            error: function(xhr, potion, error) {
+              console.log('실패');
+              console.log(error);
+            },
+            success: function(data) {
+              console.log('성공');
+              console.log(data)
+              let tmp = "";
+              $.each(data.results, function(idx, item) {
+                console.log('item',item)
+                tmp += `<tr><td>${item["id"]}</td>`;
+                tmp += `
+                  <td id="company-detail-info"
+                    onClick="location.href='detail_view/${item["id"]}'"
+                  >${item.company_name}
+                  </td>`;
+                tmp += `<td>${item.description}</td>`;  
+                tmp += `<td>${item.cdate}</td>`;  
+                tmp += `<td>${item.udate}</td></tr>`;
+                if (idx < data.length) {
+                  return false
+                }
+              })
+              console.log('tmp::', tmp)
+              $("table").append(tmp);
+            }
+          })
+        }())
+      });
 
       $("#regist-button").click(function() {
         $(location).attr("href", "/company/add_view")
-      })
+      });
 
       setInterval(function() {
         $.ajax({
