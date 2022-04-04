@@ -20,7 +20,7 @@
           <section id="panel-head">
             <div id="boxtitle-and-time-wrapper">
               <div id="box-title">
-                <p>회사 등록</p>
+                <p>사용자 등록</p>
               </div>
               <div id="server-time-wrapper">
                 <p>서버 시간 :</p>
@@ -36,48 +36,43 @@
           <section id="panel-input">
             <div id="user-info-set-wrapper">
               <form id="form-data" method="post">
-                <div id="company-name-set-wrapper" class="company-info-wrapper">
+                <div id="company-name-set-wrapper"
+                  class="user-info-wrapper">
                   <p>회사명 :</p>
                   <div>
-                    <input
-                      id="company-name-input"
-                      name="company-name"
-                      type="text"
-                      size="48"
-                      maxlength="50"
-                    />
+                    <!-- name -> key in select-->
+                    <select
+                      id="company-name-select"
+                      name="company_id" 
+                    >
+                      <option value="" selected>소속 회사 선택</option>
+                    </select>
                   </div>
                 </div>
 
                 <div id="user-name-set-wrapper" class="user-info-wrapper">
                   <p>이 름 :</p>
                   <div>
-                    <textarea
+                    <input
                       id="user-name-input"
-                      name="user-name"
-                      type="text"
-                      rows="9"
-                      cols="62"
+                      name="user_name"
                       type="text"
                       maxlength="30"
                       placeholder="이름 입력"
-                    ></textarea>
+                    ></input>
                   </div>
                 </div>
 
-                <div id="user-loginid-set-wrapper" class="user-info-wrapper">
+                <div id="user-login-id-set-wrapper" class="user-info-wrapper">
                   <p>아이디 :</p>
                   <div>
-                    <textarea
+                    <input
                       id="user-login-id-input"
-                      name="user-login-id"
-                      type="text"
-                      rows="9"
-                      cols="62"
+                      name="login_id"
                       type="text"
                       maxlength="30"
                       placeholder="아이디 입력"
-                    ></textarea>
+                    ></input>
                   </div>
                 </div>
                 <div id="bottom-buttons-wrapper">
@@ -92,12 +87,37 @@
     </section>
 
     <script>
+      $(document).ready(function() {
+        (function() {
+          $.ajax({
+            type: "GET",
+            url: "/company/api/list",
+            dataType: "json",
+            timeout: 180000,
+            error: function (xhr, potion, error) {
+              console.log("실패");
+              console.log(error);
+            },
+            success: function (data) {
+              console.log("성공");
+              console.log(data);
+              
+              for (let i = 0; i < data.results.length; i++) {
+                $("#company-name-select").append(
+                  `<option value="${data.results[i].id}">${data.results[i].company_name}</option>`
+                );
+              }
+            },
+          });
+        }());
+      });
+
       $("#list-button").click(function () {
         $(location).attr("href", "/user/list_view");
       });
 
       $("#create-button").click(function () {
-        const company_name = $("#company-name-input").val().trim();
+        const company_name = $("#company-name-select").val().trim();
         const user_name = $("#user-name-input").val().trim();
         const login_id = $("#user-name-input").val().trim();
 
@@ -140,7 +160,7 @@
         setInterval(function () {
           $.ajax({
             type: "GET",
-            url: "api/server_time",
+            url: "/common/api/server_time",
             contentType: "JSON",
             error: function (xhr, potion, error) {
               console.log("실패");
@@ -148,9 +168,7 @@
             },
             success: function (data) {
               console.log(data);
-              $("document").ready(function () {
-                $("#server-time").html(`<p>${data}</p>`);
-              });
+              $("#server-time").html(`<p>${data}</p>`);
             },
           });
         }, 1000);

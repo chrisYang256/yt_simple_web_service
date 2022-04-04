@@ -112,9 +112,7 @@
           },
           success: function(data) {
             console.log(data);
-            $("document").ready(function() {
-              $("#server-time").html(`<p>${data}</p>`);
-            });
+            $("#server-time").html(`<p>${data}</p>`);
           },
         });
       }, 1000);

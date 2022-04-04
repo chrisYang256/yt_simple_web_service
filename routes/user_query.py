@@ -30,12 +30,12 @@ def select_user_list(limit, skip):
 
     return users
     
-# def create_company(company_name, description):
-#     company_info = """
-#         insert into company(company_name, description) 
-#         values(%s, %s)
-#     """
-#     cursor.execute(company_info, (company_name, description))
+def create_user(company_id, user_name, login_id):
+    user_data = """
+        insert into user(company_id, user_name, login_id) 
+        values(%s, %s, %s)
+    """
+    cursor.execute(user_data, (company_id, user_name, login_id))
 
 # def update_company(company_name, description, now_date, company_id):
 #     company_info = """
