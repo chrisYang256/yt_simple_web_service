@@ -114,11 +114,11 @@
             })
           }
         })
-      }())
+      }());
 
       $("#list-button").click(function() {
         $(location).attr("href", "/company/list_view")
-      })
+      });
       
       $("#update-button").click(function() {
         const company_name = $("#company-name-input").val().trim();
@@ -154,23 +154,25 @@
         });
       });
 
-      setInterval(function() {
-        $.ajax({
-          type: "GET",
-          url: "/company/api/server_time",
-          contentType: "JSON",
-          error: function(xhr, potion, error) {
-            console.log("실패");
-            console.log(error);
-          },
-          success: function(data) {
-            console.log(data);
-            $("document").ready(function() {
-              $("#server-time").html(`<p>${data}</p>`);
-            });
-          },
-        });
-      }, 1000);
+      $(document).ready(function() {
+        setInterval(function() {
+          $.ajax({
+            type: "GET",
+            url: "/company/api/server_time",
+            contentType: "JSON",
+            error: function(xhr, potion, error) {
+              console.log("실패");
+              console.log(error);
+            },
+            success: function(data) {
+              console.log(data);
+              $("document").ready(function() {
+                $("#server-time").html(`<p>${data}</p>`);
+              });
+            },
+          });
+        }, 1000);
+      });
     </script>
   </body>
 </html>
