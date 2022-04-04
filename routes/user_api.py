@@ -1,7 +1,5 @@
 from flask import request
 
-import datetime
-
 from db_module import db
 from .         import user_api
 from routes    import user_query
@@ -36,6 +34,8 @@ def select_user_detail(user_id: int):
 
             if user is None:
                 return { "message": "존재하지 않는 사용자입니다.", "status": 200 }
+
+
 
             return { "result": user, "status": 200 }
 
@@ -83,20 +83,20 @@ def create_user():
 #     finally:
 #         db.close()
 
-# @user_api.route("api/remove/<company_id>", methods=["DELETE"])
-# def delete_company(company_id: int):
-#     try:
-#         db.connect()
+@user_api.route("api/remove/<user_id>", methods=["DELETE"])
+def delete_user(user_id: int):
+    try:
+        db.connect()
 
-#         company = company_query.select_company_to_check_exist(company_id)
+        user = user_query.select_user_to_check_exist(user_id)
 
-#         if company is None:
-#             return { "message:": "존재하지 않는 기업입니다.", "status": 200 }
+        if user is None:
+            return { "message:": "존재하지 않는 사용자입니다.", "status": 200 }
 
-#         company_query.delete_company(company_id)
+        user_query.delete_user(user_id)
 
-#         db.commit()
-#         return { "message": "success", "Status": 201 }
+        db.commit()
+        return { "message": "success", "Status": 201 }
     
-#     finally:
-#         db.close()
+    finally:
+        db.close()

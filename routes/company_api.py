@@ -18,7 +18,7 @@ def select_compamy_list():
             request.args.get("limit", type=int) 
             if request.args.get("limit") 
             else sys.maxsize
-        ) # default=5,
+        )
         skip   = int(limit * (offset - 1))
         print(offset, limit, skip)
 
