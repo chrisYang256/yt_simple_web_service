@@ -18,7 +18,7 @@
       type="text/css" 
       href="{{ url_for("static", filename="css/select_user_detail.css") }}" 
     />
-    <title>Company Detail</title>
+    <title>User Detail</title>
   </head>
   <body>
     <section id="panel-wrapper">
@@ -28,7 +28,7 @@
           <section id="panel-head">
             <div id="boxtitle-and-time-wrapper">
               <div id="box-title">
-                <p>회사 상세 보기</p>
+                <p>사용자 상세 보기</p>
               </div>
               <div id="server-time-wrapper">
                 <p>서버 시간 :</p>
@@ -42,17 +42,24 @@
           <div id="divide-line"></div>
 
           <section id="panel-info">
-            <div id="company-info-set-wrapper">
-              <div id="company-name-set-wrapper" class="company-info-wrapper">
-                <p>회사명 :</p>
-                <div id="company-name-data">
+            <div id="user-info-set-wrapper">
+              <div id="user-id-wrapper" class="user-info-wrapper">
+                <p>아이디 :</p>
+                <div id="user-id-data">
                   <p>Please sec..</p>
                 </div>
               </div>
 
-              <div id="company-desc-set-wrapper" class="company-info-wrapper">
-                <p>설 명 :</p>
-                <div id="company-desc-data">
+              <div id="user-name-wrapper" class="user-info-wrapper">
+                <p>이 름 :</p>
+                <div id="user-name-data">
+                  <p>Please sec..</p>
+                </div>
+              </div>
+
+              <div id="company-name-wrapper" class="user-info-wrapper">
+                <p>회사명 :</p>
+                <div id="company-name-data">
                   <p>Please sec..</p>
                 </div>
               </div>
@@ -91,7 +98,7 @@
         (function() {
           $.ajax({
             type: "GET",
-            url: `/company/api/get/${ "{{ company_id }}" }`,
+            url: `/user/api/get/${ "{{ user_id }}" }`,
             contentType: "JSON",
             error: function(xhr, potion, error) {
               console.log("실패");
@@ -101,8 +108,9 @@
               console.log("성공");
               console.log(data)
               $("document").ready(function() {
-                $("#company-name-data").html(`<p>${data.result.company_name}</p>`)
-                $("#company-desc-data").html(`<p>${data.result.description}</p>`)
+                $("#user-id-data").html(`<p>${data.result.login_id}</p>`);
+                $("#user-name-data").html(`<p>${data.result.user_name}</p>`);
+                $("#company-name-data").html(`<p>${data.result.company_name}</p>`);
               })
             }
           })
@@ -110,17 +118,17 @@
       });
 
       $("#list-button").click(function() {
-        $(location).attr("href", "/company/list_view")
+        $(location).attr("href", "/user/list_view")
       })
 
       $("#update-button").click(function() {
-        $(location).attr("href", `/company/update_view/${ "{{ company_id }}" }`)
+        $(location).attr("href", `/user/update_view/${ "{{ user_id }}" }`)
       })
 
       $("#delete-button").click(function() {
         $.ajax({
           type: "DELETE",
-          url: `/company/api/remove/${ "{{ company_id }}" }`,
+          url: `/user/api/remove/${ "{{ user_id }}" }`,
           contentType: "JSON",
           error: function(xhr, potion, error) {
             console.log("실패");
@@ -130,7 +138,7 @@
             console.log("성공");
             console.log(data)
             alert('삭제 성공!')
-            window.location.href = "/company/list_view";
+            window.location.href = "/user/list_view";
           }
         })
       })
@@ -138,7 +146,7 @@
       setInterval(function() {
         $.ajax({
           type: "GET",
-          url: "/company/api/server_time",
+          url: "/common/api/server_time",
           contentType: "JSON",
           error: function(xhr, potion, error) {
             console.log("실패");

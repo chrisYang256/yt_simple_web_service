@@ -66,6 +66,7 @@
           $.ajax({
             type: 'GET',
             url: 'api/list',
+            data: { limit: 5},
             contentType: 'JSON',
             error: function(xhr, potion, error) {
               console.log('실패');
@@ -104,7 +105,7 @@
       setInterval(function() {
         $.ajax({
           type: "GET",
-          url: "api/server_time",
+          url: "/common/api/server_time",
           contentType: "JSON",
           error: function(xhr, potion, error) {
             console.log("실패");

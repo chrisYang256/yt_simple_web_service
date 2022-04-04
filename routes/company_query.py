@@ -7,10 +7,10 @@ cursor = db.cursor(pymysql.cursors.DictCursor)
 
 def select_company_to_check_exist(company_id):
     company = """
-                select * 
-                from company 
-                where id=%s
-            """
+        select * 
+        from company 
+        where id=%s
+    """
     cursor.execute(company, (company_id))
     company = cursor.fetchone()
 
@@ -36,21 +36,21 @@ def create_company(company_name, description):
     cursor.execute(company_data, (company_name, description))
 
 def update_company(company_name, description, now_date, company_id):
-    company_info = """
-            update company 
-            set company_name=%s, description=%s, udate=%s
-            where id=%s
-        """
-    cursor.execute(company_info, 
+    company_data = """
+        update company 
+        set company_name=%s, description=%s, udate=%s
+        where id=%s
+    """
+    cursor.execute(company_data, 
         (company_name, description, now_date, company_id)
     )
     cursor.fetchall()
 
 def delete_company(company_id):
-    company_info = """
-            delete from company 
-            where id=%s
-        """
+    company_data = """
+        delete from company 
+        where id=%s
+    """
 
-    cursor.execute(company_info, (company_id))
+    cursor.execute(company_data, (company_id))
     cursor.fetchall()
