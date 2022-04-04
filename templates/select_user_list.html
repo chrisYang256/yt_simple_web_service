@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+      crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="..\static\css\common.css" />
+    <link rel="stylesheet" type="text/css" href="..\static\css\select_user_list.css" />
+    <title>User List</title>
+  </head>
+  <body>
+    <section id="panel-wrapper">
+      <div id="outer-box-wrapper">
+        <div id="outer_box">
+          
+          <section id="panel-head">
+            <div id="boxtitle-and-time-wrapper">
+              <div id="box-title">
+                <p>사용자 목록</p>
+              </div>
+              <div id="server-time-wrapper">
+                <p>서버 시간 :</p>
+                <div id="server-time">
+                  <p></p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div id="divide-line"></div>
+
+          <section id="panel-table">
+            <div id="table_wrapper">
+              <table>
+                <tr>
+                  <th>ID</th>
+                  <th>이 름</th>
+                  <th>회사명</th>
+                  <th>생성일</th>
+                  <th>수정일</th>
+                </tr>
+              </table>
+            </div>
+          </section>
+
+          <section id="panel-button">
+            <div id="new-button-wrapper">
+              <button
+                id="regist-button"
+                type="button"
+              >
+                신규 등록
+              </button>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      $(document).ready(function() {
+        (function() {
+          $.ajax({
+            type: 'GET',
+            url: 'api/list',
+            contentType: 'JSON',
+            error: function(xhr, potion, error) {
+              console.log('실패');
+              console.log(error);
+            },
+            success: function(data) {
+              console.log('성공');
+              console.log(data)
+              let tmp = "";
+              $.each(data.results, function(idx, item) {
+                console.log('item',item)
+                tmp += `<tr><td id="company-detail-info"
+                  onClick="location.href='detail_view/${item["id"]}'"
+                >${item["login_id"]}</td>`;
+                tmp += `<td>${item.user_name}</td>`;
+                tmp += `<td>${item.company_name}</td>`;  
+                tmp += `<td>${item.cdate}</td>`;  
+                tmp += `<td>${item.udate}</td></tr>`;
+                if (idx < data.length) {
+                  return false
+                }
+              })
+              console.log('tmp::', tmp)
+              $("table").append(tmp);
+            }
+          })
+        }())
+      });
+
+      $("#regist-button").click(function() {
+        $(location).attr("href", "/company/add_view")
+      });
+
+      setInterval(function() {
+        $.ajax({
+          type: "GET",
+          url: "/common/api/server_time",
+          contentType: "JSON",
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log(data);
+            $("document").ready(function() {
+              $("#server-time").html(`<p>${data}</p>`);
+            });
+          },
+        });
+      }, 1000);
+    </script>
+  </body>
+</html>

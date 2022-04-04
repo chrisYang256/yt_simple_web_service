@@ -1,0 +1,41 @@
+/* section::: panel-table */
+#table_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0px 0px 0px;
+}
+
+table,
+td,
+th {
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 15px;
+  border: solid 2px gray;
+}
+
+table {
+  table-layout: fixed;
+  width: 650px;
+  height: 200px;
+}
+
+td {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0px 10px;
+  width: 125px;
+}
+
+#company-detail-info {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+/* section::: panel-button */
+#new-button-wrapper {
+  margin: 15px 0px 0px 25px;
+}
