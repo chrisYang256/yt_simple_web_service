@@ -25,7 +25,7 @@
               <div id="server-time-wrapper">
                 <p>서버 시간 :</p>
                 <div id="server-time">
-                  <p></p>
+                  <p>{{ server_time }}</p>
                 </div>
               </div>
             </div>
@@ -97,26 +97,6 @@
           })
         }())
       });
-
-      $("#regist-button").click(function() {
-        $(location).attr("href", "/company/add_view")
-      });
-
-      setInterval(function() {
-        $.ajax({
-          type: "GET",
-          url: "/common/api/server_time",
-          contentType: "JSON",
-          error: function(xhr, potion, error) {
-            console.log("실패");
-            console.log(error);
-          },
-          success: function(data) {
-            console.log(data);
-            $("#server-time").html(`<p>${data}</p>`);
-          },
-        });
-      }, 1000);
     </script>
   </body>
 </html>

@@ -7,7 +7,7 @@ cursor = db.cursor(pymysql.cursors.DictCursor)
 
 def select_user_to_check_exist(user_id):
     user = """
-        select u.*, c.company_name 
+        select u.*, c.company_name
         from user as u
             inner join company as c
             on c.id = u.company_id
@@ -39,16 +39,16 @@ def create_user(company_id, user_name, login_id):
     """
     cursor.execute(user_data, (company_id, user_name, login_id))
 
-# def update_company(company_name, description, now_date, company_id):
-#     company_data = """
-#         update company 
-#         set company_name=%s, description=%s, udate=%s
-#         where id=%s
-#     """
-#     cursor.execute(company_data, 
-#         (company_name, description, now_date, company_id)
-#     )
-#     cursor.fetchall()
+def update_user(user_name, login_id, company_id, now_date, user_id):
+    user_data = """
+        update user 
+        set user_name=%s, login_id=%s, company_id=%s, udate=%s
+        where id=%s
+    """
+    cursor.execute(user_data, 
+        (user_name, login_id, company_id, now_date, user_id)
+    )
+    cursor.fetchall()
 
 def delete_user(user_id):
     user_data = """

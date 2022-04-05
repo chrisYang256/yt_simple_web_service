@@ -45,7 +45,7 @@
                       id="company-name-select"
                       name="company_id" 
                     >
-                      <option value="" selected>소속 회사 선택</option>
+                      <option value="">소속 회사 선택</option>
                     </select>
                   </div>
                 </div>
@@ -75,6 +75,7 @@
                     ></input>
                   </div>
                 </div>
+
                 <div id="bottom-buttons-wrapper">
                   <button id="list-button" type="button">목 록</button>
                   <button id="create-button" type="button">생 성</button>
@@ -156,23 +157,21 @@
         });
       });
 
-      $(document).ready(function () {
-        setInterval(function () {
-          $.ajax({
-            type: "GET",
-            url: "/common/api/server_time",
-            contentType: "JSON",
-            error: function (xhr, potion, error) {
-              console.log("실패");
-              console.log(error);
-            },
-            success: function (data) {
-              console.log(data);
-              $("#server-time").html(`<p>${data}</p>`);
-            },
-          });
-        }, 1000);
-      });
+      setInterval(function () {
+        $.ajax({
+          type: "GET",
+          url: "/common/api/server_time",
+          contentType: "JSON",
+          error: function (xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function (data) {
+            console.log(data);
+            $("#server-time").html(`<p>${data}</p>`);
+          },
+        });
+      }, 1000);
     </script>
   </body>
 </html>
