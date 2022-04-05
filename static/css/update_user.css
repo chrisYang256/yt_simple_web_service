@@ -1,0 +1,38 @@
+/* section - panel-input */
+#user-info-set-wrapper {
+  margin: 30px 0px 0px 25px;
+}
+
+.user-info-wrapper {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+#company-name-select {
+  margin-right: 262px;
+  width: 308px;
+  height: 30px;
+}
+
+#user-name-input,
+#user-login-id-input {
+  margin-right: 262px;
+  width: 300px;
+  height: 25px;
+}
+
+#user-name-set-wrapper,
+#user-login-id-set-wrapper {
+  margin-top: 20px;
+}
+
+#buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 70px;
+  right: 200px;
+}
+#update-button {
+  margin-right: 25px;
+}

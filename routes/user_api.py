@@ -1,5 +1,7 @@
 from flask import request
 
+import datetime
+
 from db_module import db
 from .         import user_api
 from routes    import user_query
@@ -35,8 +37,6 @@ def select_user_detail(user_id: int):
             if user is None:
                 return { "message": "존재하지 않는 사용자입니다.", "status": 200 }
 
-
-
             return { "result": user, "status": 200 }
 
         return { "message": "사용자 id가 입력되지 않았습니다.", "status": 200 }
@@ -61,27 +61,28 @@ def create_user():
     finally:
         db.close()
 
-# @user_api.route("api/update/<company_id>", methods=["PUT"]) # path param 방식
-# def update_company(company_id: int):
-#     try:
-#         db.connect()
+@user_api.route("api/update/<user_id>", methods=["PUT"]) # path param 방식
+def update_user(user_id: int):
+    try:
+        db.connect()
 
-#         company_name = request.form["company_name"]
-#         description  = request.form["description"]
-#         now_date     = datetime.datetime.now()
+        login_id  = request.form["login_id"]
+        user_name = request.form["user_name"]
+        company_id  = request.form["company_id"]
+        now_date     = datetime.datetime.now()
 
-#         find_company = company_query.select_company_to_check_exist(company_id)
+        find_user = user_query.select_user_to_check_exist(user_id)
 
-#         if find_company is None:
-#             return { "message:": "존재하지 않는 기업입니다.", "status": 200 }
+        if find_user is None:
+            return { "message:": "존재하지 않는 사용자입니다.", "status": 200 }
 
-#         company_query.update_company(company_name, description, now_date, company_id)
+        user_query.update_user(user_name, login_id, company_id, now_date, user_id)
 
-#         db.commit()
-#         return { "message": "success", "Status": 201 }
+        db.commit()
+        return { "message": "success", "Status": 201 }
     
-#     finally:
-#         db.close()
+    finally:
+        db.close()
 
 @user_api.route("api/remove/<user_id>", methods=["DELETE"])
 def delete_user(user_id: int):

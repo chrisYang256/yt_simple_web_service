@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+      crossorigin="anonymous">
+    </script>
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="{{ url_for("static", filename="css/common.css") }}" 
+    /> <!-- net::ERR_ABORTED 404 (NOT FOUND) 발생시 적용 -->
+    <link 
+      rel="stylesheet" 
+      type="text/css" 
+      href="{{ url_for("static", filename="css/update_user.css") }}" 
+    />
+    <title>Update User</title>
+  </head>
+  <body>
+    <section id="panel-wrapper">
+      <div id="outer-box-wrapper">
+        <div id="outer_box">
+          
+          <section id="panel-head">
+            <div id="boxtitle-and-time-wrapper">
+              <div id="box-title">
+                <p>사용자 수정</p>
+              </div>
+              <div id="server-time-wrapper">
+                <p>서버 시간 :</p>
+                <div id="server-time">
+                  <p></p>
+                </div>
+              </div>
+            </div>
+          </section>
+  
+          <div id="divide-line"></div>
+
+          <section id="panel-input">
+            <div id="user-info-set-wrapper">
+              <form id="form-data" method="post">
+                <div id="company-name-set-wrapper"
+                  class="user-info-wrapper">
+                  <p>회사명 :</p>
+                  <div>
+                    <select
+                      id="company-name-select"
+                      name="company_id" 
+                    >
+                      <option id="my-company-now" value=""></option>
+                    </select>
+                  </div>
+                </div>
+
+                <div id="user-name-set-wrapper" class="user-info-wrapper">
+                  <p>이 름 :</p>
+                  <div>
+                    <input
+                      id="user-name-input"
+                      name="user_name"
+                      type="text"
+                      maxlength="30"
+                      placeholder="이름 입력"
+                    ></input>
+                  </div>
+                </div>
+
+                <div id="user-login-id-set-wrapper" class="user-info-wrapper">
+                  <p>아이디 :</p>
+                  <div>
+                    <input
+                      id="user-login-id-input"
+                      name="login_id"
+                      type="text"
+                      maxlength="30"
+                      placeholder="아이디 입력"
+                    ></input>
+                  </div>
+                </div>
+
+                <div id="buttons-wrapper">
+                  <button
+                    id="list-button"
+                    type="button"
+                    >
+                    목 록
+                  </button>
+                  <button 
+                    id="update-button" 
+                    type="button" 
+                    >
+                    적 용
+                  </button>
+                </div>
+              </form>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      $(document).ready(function() {
+        $.ajax({
+          type: "GET",
+          url: `/user/api/get/${ "{{ user_id }}" }`,
+          contentType: "JSON",
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log("성공");
+            console.log(data)
+              $("#my-company-now").replaceWith(
+                `<option 
+                  value="${data.result.company_id}
+                ">
+                  ${data.result.company_name}
+                </option>`
+              )
+              $("#user-name-input").val(data.result.user_name)
+              $("#user-login-id-input").val(data.result.login_id)
+
+            // 초기 실행 ajax가 2개 이상일 경우 "pymysql.err.Error: Already closed"가 발생합니다.
+            // 원인은 db connect와 close가 꼬이면서 발생하는 것으로 생각됩니다.
+            // 따라서 ajax chainning으로 순서를 정해줘야 합니다.
+            $.ajax({
+              type: "GET",
+              url: "/company/api/list",
+              dataType: "json",
+              timeout: 180000,
+              error: function (xhr, potion, error) {
+                console.log("실패");
+                console.log(error);
+              },
+              success: function (data) {
+                console.log("성공");
+                console.log(data);
+                let my_comapny = {}
+                for (let i = 0; i < data.results.length; i++) {
+                  $("#company-name-select").append(
+                    `<option value="${data.results[i].id}">${data.results[i].company_name}</option>`
+                  );
+                }
+              },
+            });
+          }
+        })
+      })
+  
+      $("#list-button").click(function() {
+        $(location).attr("href", "/user/list_view")
+      });
+      
+      $("#update-button").click(function() {
+        const user_name = $("#user-name-input").val().trim();
+        const user_login_id = $("#user-login-id-input").val().trim();
+        
+        if (user_name === "") {
+          alert("이름을 입력해주세요.");
+          return;
+        }
+
+        if (user_login_id === "") {
+          alert("아이디를 입력해주세요.");
+          return;
+        }
+
+        let form_data = $("#form-data").serialize();
+
+        $.ajax({
+          type: "PUT",
+          url: `/user/api/update/${ "{{ user_id }}" }`,
+          data: form_data,
+          dataType: "json",
+          timeout: 180000,
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log("성공");
+            console.log(data);
+            window.location.href = "/user/list_view";
+          },
+        });
+      });
+
+      setInterval(function() {
+        $.ajax({
+          type: "GET",
+          url: "/common/api/server_time",
+          contentType: "JSON",
+          error: function(xhr, potion, error) {
+            console.log("실패");
+            console.log(error);
+          },
+          success: function(data) {
+            console.log(data);
+            $("#server-time").html(`<p>${data}</p>`);
+          },
+        });
+      }, 1000);
+    </script>
+  </body>
+</html>
