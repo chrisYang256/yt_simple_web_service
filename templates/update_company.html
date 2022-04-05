@@ -4,27 +4,22 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
-      crossorigin="anonymous">
-    </script>
-    <link 
-      rel="stylesheet" 
-      type="text/css" 
-      href="{{ url_for("static", filename="css/common.css") }}" 
-    /> <!-- net::ERR_ABORTED 404 (NOT FOUND) 발생시 적용 -->
-    <link 
-      rel="stylesheet" 
-      type="text/css" 
-      href="{{ url_for("static", filename="css/update_company.css") }}" 
-    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",
+    filename="css/common.css") }}" />
+    <!-- net::ERR_ABORTED 404 (NOT FOUND) 발생시 적용 -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",
+    filename="css/update_company.css") }}" />
     <title>Update Company</title>
   </head>
   <body>
     <section id="panel-wrapper">
       <div id="outer-box-wrapper">
         <div id="outer_box">
-          
           <section id="panel-head">
             <div id="boxtitle-and-time-wrapper">
               <div id="box-title">
@@ -38,29 +33,26 @@
               </div>
             </div>
           </section>
-  
+
           <div id="divide-line"></div>
 
           <section id="panel-input">
             <div id="company-info-set-wrapper">
-              <form
-                id="form-data"
-                method="put"
-              >
+              <form id="form-data" method="put">
                 <div id="company-name-set-wrapper" class="company-info-wrapper">
-                  <p>회사명 :</p> 
+                  <p>회사명 :</p>
                   <div>
-                    <input 
-                      id="company-name-input" 
-                      name="company_name" 
-                      type="text" 
-                      size=48 
-                      maxlength=50
-                    >
+                    <input
+                      id="company-name-input"
+                      name="company_name"
+                      type="text"
+                      size="48"
+                      maxlength="50"
+                    />
                   </div>
                 </div>
-      
-                <div id="company-desc-set-wrapper" class="company-info-wrapper" >
+
+                <div id="company-desc-set-wrapper" class="company-info-wrapper">
                   <p>설명 :</p>
                   <div>
                     <textarea
@@ -69,26 +61,18 @@
                       type="text"
                       rows="9"
                       cols="62"
-                      maxlength=4000
+                      maxlength="4000"
                     ></textarea>
                   </div>
                 </div>
-                <div id="bottom-buttons-wrapper">
-                  <button
-                  id="list-button"
-                  type="button"
-                  >
-                  목 록
-                  </button>
-                  <button 
-                    id="update-button" 
-                    type="button" 
-                    >
-                    적 용
-                  </button>
-                </div>
               </form>
-              </div>
+            </div>
+          </section>
+
+          <section id="panel-button">
+            <div id="bottom-buttons-wrapper">
+              <button id="list-button" type="button">목 록</button>
+              <button id="update-button" type="button">적 용</button>
             </div>
           </section>
         </div>
@@ -96,36 +80,36 @@
     </section>
 
     <script>
-      $(document).ready(function() {
-        (function() {
+      $(document).ready(function () {
+        (function () {
           $.ajax({
             type: "GET",
-            url: `/company/api/get/${ "{{ company_id }}" }`,
+            url: `/company/api/get/${"{{ company_id }}"}`,
             contentType: "JSON",
-            error: function(xhr, potion, error) {
+            error: function (xhr, potion, error) {
               console.log("실패");
               console.log(error);
             },
-            success: function(data) {
+            success: function (data) {
               console.log("성공");
-              console.log(data)
-              $("document").ready(function() {
+              console.log(data);
+              $(document).ready(function () {
                 $("#company-name-input").val(data.result.company_name),
-                $("#company-desc-input").val(data.result.description)
-              })
-            }
-          })
-        }());
+                  $("#company-desc-input").val(data.result.description);
+              });
+            },
+          });
+        })();
       });
 
-      $("#list-button").click(function() {
-        $(location).attr("href", "/company/list_view")
+      $("#list-button").click(function () {
+        $(location).attr("href", "/company/list_view");
       });
-      
-      $("#update-button").click(function() {
+
+      $("#update-button").click(function () {
         const company_name = $("#company-name-input").val().trim();
         const description = $("#company-desc-input").val().trim();
-        
+
         if (company_name === "") {
           alert("회사명을 입력해주세요.");
           return;
@@ -140,15 +124,15 @@
 
         $.ajax({
           type: "PUT",
-          url: `/company/api/update/${ "{{ company_id }}" }`,
+          url: `/company/api/update/${"{{ company_id }}"}`,
           data: form_data,
           dataType: "json",
           timeout: 180000,
-          error: function(xhr, potion, error) {
+          error: function (xhr, potion, error) {
             console.log("실패");
             console.log(error);
           },
-          success: function(data) {
+          success: function (data) {
             console.log("성공");
             console.log(data);
             window.location.href = "/company/list_view";
@@ -156,16 +140,16 @@
         });
       });
 
-      setInterval(function() {
+      setInterval(function () {
         $.ajax({
           type: "GET",
           url: "/common/api/server_time",
           contentType: "JSON",
-          error: function(xhr, potion, error) {
+          error: function (xhr, potion, error) {
             console.log("실패");
             console.log(error);
           },
-          success: function(data) {
+          success: function (data) {
             console.log(data);
             $("#server-time").html(`<p>${data}</p>`);
           },

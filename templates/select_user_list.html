@@ -4,19 +4,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
-      crossorigin="anonymous">
-    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" type="text/css" href="..\static\css\common.css" />
-    <link rel="stylesheet" type="text/css" href="..\static\css\select_user_list.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="..\static\css\select_user_list.css"
+    />
     <title>User List</title>
   </head>
   <body>
     <section id="panel-wrapper">
       <div id="outer-box-wrapper">
         <div id="outer_box">
-          
           <section id="panel-head">
             <div id="boxtitle-and-time-wrapper">
               <div id="box-title">
@@ -49,66 +53,62 @@
 
           <section id="panel-button">
             <div id="new-button-wrapper">
-              <button
-                id="regist-button"
-                type="button"
-              >
-                신규 등록
-              </button>
+              <button id="regist-button" type="button">신규 등록</button>
+            </div>
           </section>
         </div>
       </div>
     </section>
 
     <script>
-      $(document).ready(function() {
-        (function() {
+      $(document).ready(function () {
+        (function () {
           $.ajax({
-            type: 'GET',
-            url: 'api/list',
-            contentType: 'JSON',
-            error: function(xhr, potion, error) {
-              console.log('실패');
+            type: "GET",
+            url: "/user/api/list",
+            contentType: "JSON",
+            error: function (xhr, potion, error) {
+              console.log("실패");
               console.log(error);
             },
-            success: function(data) {
-              console.log('성공');
-              console.log(data)
+            success: function (data) {
+              console.log("성공");
+              console.log(data);
               let tmp = "";
-              $.each(data.results, function(idx, item) {
-                console.log('item',item)
+              $.each(data.results, function (idx, item) {
+                console.log("item", item);
                 tmp += `<tr><td id="user-detail-info"
                   onClick="location.href='detail_view/${item["id"]}'"
                 >${item["login_id"]}</td>`;
                 tmp += `<td>${item.user_name}</td>`;
-                tmp += `<td>${item.company_name}</td>`;  
-                tmp += `<td>${item.cdate}</td>`;  
+                tmp += `<td>${item.company_name}</td>`;
+                tmp += `<td>${item.cdate}</td>`;
                 tmp += `<td>${item.udate}</td></tr>`;
                 if (idx < data.length) {
-                  return false
+                  return false;
                 }
-              })
-              console.log('tmp::', tmp)
+              });
+              console.log("tmp::", tmp);
               $("table").append(tmp);
-            }
-          })
-        }())
+            },
+          });
+        })();
       });
 
-      $("#regist-button").click(function() {
-        $(location).attr("href", "/user/add_view")
+      $("#regist-button").click(function () {
+        $(location).attr("href", "/user/add_view");
       });
 
-      setInterval(function() {
+      setInterval(function () {
         $.ajax({
           type: "GET",
           url: "/common/api/server_time",
           contentType: "JSON",
-          error: function(xhr, potion, error) {
+          error: function (xhr, potion, error) {
             console.log("실패");
             console.log(error);
           },
-          success: function(data) {
+          success: function (data) {
             console.log(data);
             $("#server-time").html(`<p>${data}</p>`);
           },

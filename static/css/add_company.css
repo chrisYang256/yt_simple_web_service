@@ -33,6 +33,11 @@
   margin-top: 20px;
   right: 200px;
 }
+
+#list-button {
+  margin-left: 25px;
+}
+
 #create-button {
   margin-right: 25px;
 }
