@@ -4,27 +4,22 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
-      crossorigin="anonymous">
-    </script>
-    <link 
-      rel="stylesheet" 
-      type="text/css" 
-      href="{{ url_for("static", filename="css/common.css") }}" 
-    /> <!-- net::ERR_ABORTED 404 (NOT FOUND) 발생시 적용 -->
-    <link 
-      rel="stylesheet" 
-      type="text/css" 
-      href="{{ url_for("static", filename="css/select_user_detail.css") }}" 
-    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",
+    filename="css/common.css") }}" />
+    <!-- net::ERR_ABORTED 404 (NOT FOUND) 발생시 적용 -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",
+    filename="css/select_user_detail.css") }}" />
     <title>User Detail</title>
   </head>
   <body>
     <section id="panel-wrapper">
       <div id="outer-box-wrapper">
         <div id="outer_box">
-
           <section id="panel-head">
             <div id="boxtitle-and-time-wrapper">
               <div id="box-title">
@@ -66,93 +61,79 @@
             </div>
           </section>
 
-          <section id="pannel-buttons">
+          <section id="pannel-button">
             <div id="button-wrapper">
-              <button
-                id="list-button"
-                type="button"
-              >
-                목 록
-              </button>
-              <button
-                id="update-button"
-                type="button"
-              >
-                수 정
-              </button>
-              <button
-                id="delete-button"
-                type="button"
-              >
-                삭 제
-              </button>
+              <button id="list-button" type="button">목 록</button>
+              <button id="update-button" type="button">수 정</button>
+              <button id="delete-button" type="button">삭 제</button>
             </div>
           </section>
-          </div>
         </div>
       </div>
     </section>
 
     <script>
-      $(document).ready(function() {
-        (function() {
+      $(document).ready(function () {
+        (function () {
           $.ajax({
             type: "GET",
-            url: `/user/api/get/${ "{{ user_id }}" }`,
+            url: `/user/api/get/${"{{ user_id }}"}`,
             contentType: "JSON",
-            error: function(xhr, potion, error) {
+            error: function (xhr, potion, error) {
               console.log("실패");
               console.log(error);
             },
-            success: function(data) {
+            success: function (data) {
               console.log("성공");
-              console.log(data)
-              $("document").ready(function() {
+              console.log(data);
+              $("document").ready(function () {
                 $("#user-id-data").html(`<p>${data.result.login_id}</p>`);
                 $("#user-name-data").html(`<p>${data.result.user_name}</p>`);
-                $("#company-name-data").html(`<p>${data.result.company_name}</p>`);
-              })
-            }
-          })
-        }())
+                $("#company-name-data").html(
+                  `<p>${data.result.company_name}</p>`
+                );
+              });
+            },
+          });
+        })();
       });
 
-      $("#list-button").click(function() {
-        $(location).attr("href", "/user/list_view")
-      })
+      $("#list-button").click(function () {
+        $(location).attr("href", "/user/list_view");
+      });
 
-      $("#update-button").click(function() {
-        $(location).attr("href", `/user/update_view/${ "{{ user_id }}" }`)
-      })
+      $("#update-button").click(function () {
+        $(location).attr("href", `/user/update_view/${"{{ user_id }}"}`);
+      });
 
-      $("#delete-button").click(function() {
+      $("#delete-button").click(function () {
         $.ajax({
           type: "DELETE",
-          url: `/user/api/remove/${ "{{ user_id }}" }`,
+          url: `/user/api/remove/${"{{ user_id }}"}`,
           contentType: "JSON",
-          error: function(xhr, potion, error) {
+          error: function (xhr, potion, error) {
             console.log("실패");
             console.log(error);
           },
-          success: function(data) {
+          success: function (data) {
             console.log("성공");
-            console.log(data)
-            alert('삭제 성공!')
+            console.log(data);
+            alert("삭제 성공!");
             window.location.href = "/user/list_view";
-          }
-        })
-      })
+          },
+        });
+      });
 
-      setInterval(function() {
+      setInterval(function () {
         $.ajax({
           type: "GET",
           url: "/common/api/server_time",
           contentType: "JSON",
-          error: function(xhr, potion, error) {
+          error: function (xhr, potion, error) {
             console.log("실패");
             console.log(error);
           },
-          success: function(data) {
+          success: function (data) {
             console.log(data);
             $("#server-time").html(`<p>${data}</p>`);
           },

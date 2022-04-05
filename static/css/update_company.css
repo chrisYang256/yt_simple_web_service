@@ -34,6 +34,10 @@
   right: 200px;
 }
 
+#list-button {
+  margin-left: 25px;
+}
+
 #update-button {
   margin-right: 25px;
 }

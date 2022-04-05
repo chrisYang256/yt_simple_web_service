@@ -40,7 +40,6 @@
                   class="user-info-wrapper">
                   <p>회사명 :</p>
                   <div>
-                    <!-- name -> key in select-->
                     <select
                       id="company-name-select"
                       name="company_id" 
@@ -75,12 +74,14 @@
                     ></input>
                   </div>
                 </div>
-
-                <div id="bottom-buttons-wrapper">
-                  <button id="list-button" type="button">목 록</button>
-                  <button id="create-button" type="button">생 성</button>
-                </div>
               </form>
+            </div>
+          </section>
+
+          <section id="panel-button">
+            <div id="bottom-buttons-wrapper">
+              <button id="list-button" type="button">목 록</button>
+              <button id="create-button" type="button">생 성</button>
             </div>
           </section>
         </div>
@@ -113,11 +114,11 @@
         }());
       });
 
-      $("#list-button").click(function () {
+      $("#list-button").click(function() {
         $(location).attr("href", "/user/list_view");
       });
 
-      $("#create-button").click(function () {
+      $("#create-button").click(function() {
         const company_name = $("#company-name-select").val().trim();
         const user_name = $("#user-name-input").val().trim();
         const login_id = $("#user-name-input").val().trim();
@@ -141,7 +142,7 @@
 
         $.ajax({
           type: "POST",
-          url: "api/add",
+          url: "/user/api/add",
           data: form_data,
           dataType: "json",
           timeout: 180000,
@@ -149,15 +150,15 @@
             console.log("실패");
             console.log(error);
           },
-          success: function (data) {
+          success: function(data) {
             console.log("성공");
             console.log(data);
-            window.location.href = "list_view";
+            window.location.href = "/user/list_view";
           },
         });
       });
 
-      setInterval(function () {
+      setInterval(function() {
         $.ajax({
           type: "GET",
           url: "/common/api/server_time",
@@ -166,7 +167,7 @@
             console.log("실패");
             console.log(error);
           },
-          success: function (data) {
+          success: function(data) {
             console.log(data);
             $("#server-time").html(`<p>${data}</p>`);
           },

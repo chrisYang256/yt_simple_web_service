@@ -45,7 +45,7 @@
                   <div>
                     <input
                       id="company-name-input"
-                      name="company-name"
+                      name="company_name"
                       type="text"
                       size="48"
                       maxlength="50"
@@ -67,11 +67,14 @@
                     ></textarea>
                   </div>
                 </div>
-                <div id="bottom-buttons-wrapper">
-                  <button id="list-button" type="button">목 록</button>
-                  <button id="create-button" type="button">생 성</button>
-                </div>
               </form>
+            </div>
+          </section>
+
+          <section id="panel-button">
+            <div id="bottom-buttons-wrapper">
+              <button id="list-button" type="button">목 록</button>
+              <button id="create-button" type="button">생 성</button>
             </div>
           </section>
         </div>
@@ -79,10 +82,6 @@
     </section>
 
     <script>
-      $("#list-button").click(function () {
-        $(location).attr("href", "/company/list_view");
-      });
-
       $("#create-button").click(function () {
         const company_name = $("#company-name-input").val().trim();
         const description = $("#company-desc-input").val().trim();
@@ -101,7 +100,7 @@
 
         $.ajax({
           type: "POST",
-          url: "api/add",
+          url: "/company/api/add",
           data: form_data,
           dataType: "json",
           timeout: 180000,
@@ -112,9 +111,13 @@
           success: function (data) {
             console.log("성공");
             console.log(data);
-            window.location.href = "list_view";
+            window.location.href = "/company/list_view";
           },
         });
+      });
+
+      $("#list-button").click(function () {
+        $(location).attr("href", "/company/list_view");
       });
 
       $(document).ready(function () {

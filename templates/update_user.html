@@ -82,23 +82,22 @@
                     ></input>
                   </div>
                 </div>
-
-                <div id="buttons-wrapper">
-                  <button
-                    id="list-button"
-                    type="button"
-                    >
-                    목 록
-                  </button>
-                  <button 
-                    id="update-button" 
-                    type="button" 
-                    >
-                    적 용
-                  </button>
-                </div>
               </form>
-              </div>
+            </div>
+          </section>
+
+          <section id="panel-button">
+            <div id="buttons-wrapper">
+              <button
+                id="list-button"
+                type="button"
+                >목 록
+              </button>
+              <button 
+                id="update-button" 
+                type="button" 
+                >적 용
+              </button>
             </div>
           </section>
         </div>
@@ -117,20 +116,20 @@
           },
           success: function(data) {
             console.log("성공");
-            console.log(data)
+            console.log(data);
               $("#my-company-now").replaceWith(
                 `<option 
                   value="${data.result.company_id}
                 ">
                   ${data.result.company_name}
                 </option>`
-              )
-              $("#user-name-input").val(data.result.user_name)
-              $("#user-login-id-input").val(data.result.login_id)
+              );
+              $("#user-name-input").val(data.result.user_name);
+              $("#user-login-id-input").val(data.result.login_id);
 
             // 초기 실행 ajax가 2개 이상일 경우 "pymysql.err.Error: Already closed"가 발생합니다.
             // 원인은 db connect와 close가 꼬이면서 발생하는 것으로 생각됩니다.
-            // 따라서 ajax chainning으로 순서를 정해줘야 합니다.
+            // 따라서 ajax chaining으로 순서를 정해줘야 합니다.
             $.ajax({
               type: "GET",
               url: "/company/api/list",
@@ -143,10 +142,12 @@
               success: function (data) {
                 console.log("성공");
                 console.log(data);
-                let my_comapny = {}
+
                 for (let i = 0; i < data.results.length; i++) {
                   $("#company-name-select").append(
-                    `<option value="${data.results[i].id}">${data.results[i].company_name}</option>`
+                    `<option value="${data.results[i].id}"
+                    >${data.results[i].company_name}
+                    </option>`
                   );
                 }
               },
@@ -156,7 +157,7 @@
       })
   
       $("#list-button").click(function() {
-        $(location).attr("href", "/user/list_view")
+        $(location).attr("href", "/user/list_view");
       });
       
       $("#update-button").click(function() {
